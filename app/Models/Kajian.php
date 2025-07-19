@@ -11,4 +11,9 @@ class Kajian extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'kajian';
     protected $guarded = ['id'];
+
+    public function ustadz()
+    {
+        return $this->belongsTo(Ustadz::class, 'ustadz_id');
+    }
 }
