@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ustadzs', function (Blueprint $table) {
+        Schema::create('ustadz', function (Blueprint $table) {
             $table->id();
+            $table->string('nama', 128);
+            $table->string('foto', 128);
+            $table->date('tanggal_lahir');
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
+            $table->text('alamat');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ustadzs');
+        Schema::dropIfExists('ustadz');
     }
 };
