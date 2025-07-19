@@ -11,4 +11,9 @@ class Barang extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'barang';
     protected $guarded = ['id'];
+
+    public function pengurus()
+    {
+        return $this->belongsTo(Pengurus::class, 'pengurus_id');
+    }
 }
