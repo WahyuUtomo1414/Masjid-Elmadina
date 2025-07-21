@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\BarangResource\Pages;
@@ -54,15 +55,17 @@ class BarangResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('pengurus_id')
+                TextColumn::make('pengurus.nama')
+                    ->label('Nama Pengurus'),
+                TextColumn::make('nama')
+                    ->searchable()
+                    ->label('Nama Barang'),
+                TextColumn::make('stok')
+                    ->label('Stok Barang')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('nama')
+                TextColumn::make('status_barang')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('stok')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('status_barang'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -76,7 +79,9 @@ class BarangResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
