@@ -2,16 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BarangResource\Pages;
-use App\Filament\Resources\BarangResource\RelationManagers;
-use App\Models\Barang;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Barang;
+use App\Models\Pengurus;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\BarangResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\BarangResource\RelationManagers;
 
 class BarangResource extends Resource
 {
@@ -23,17 +26,27 @@ class BarangResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('pengurus_id')
+                Select::make('pengurus_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('nama')
+                    ->label('Pengurus')
+                    ->searchable()
+                    ->columnSpanFull()
+                    ->options(Pengurus::pluck('nama', 'id')),
+                TextInput::make('nama')
                     ->required()
+                    ->label('Nama Barang')
                     ->maxLength(128),
-                Forms\Components\TextInput::make('stok')
+                TextInput::make('stok')
                     ->required()
+                    ->label('Stok Barang')
                     ->numeric(),
-                Forms\Components\TextInput::make('status_barang')
-                    ->required(),
+                Select::make('status_barang')
+                    ->required()
+                    ->options([
+                        'layak' => 'Layak',
+                        'tidak layak' => 'Tidak Layak',
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 
