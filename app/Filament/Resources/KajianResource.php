@@ -11,12 +11,14 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\KajianResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\KajianResource\RelationManagers;
+use Filament\Tables\Columns\ImageColumn;
 
 class KajianResource extends Resource
 {
@@ -55,17 +57,22 @@ class KajianResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('ustadz_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('judul_kajian')
+                TextColumn::make('judul_kajian')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('tanggal_kajian')
+                ImageColumn::make('ustadz.foto')
+                    ->label('Foto Ustadz')
+                    ->circular()
+                    ->size(80),
+                TextColumn::make('ustadz.nama')
+                    ->label('Nama Ustadz')
+                    ->searchable(),
+                TextColumn::make('tanggal_kajian')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('jam_kajian')
-                    ->date()
+                TextColumn::make('jam_kajian')
                     ->sortable(),
+                TextColumn::make('keterangan')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -83,7 +90,9 @@ class KajianResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
