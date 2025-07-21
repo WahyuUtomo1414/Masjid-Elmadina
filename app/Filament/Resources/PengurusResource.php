@@ -2,16 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PengurusResource\Pages;
-use App\Filament\Resources\PengurusResource\RelationManagers;
-use App\Models\Pengurus;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Pengurus;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\PengurusResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\PengurusResource\RelationManagers;
 
 class PengurusResource extends Resource
 {
@@ -23,20 +28,30 @@ class PengurusResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama')
+                FileUpload::make('foto')
                     ->required()
-                    ->maxLength(128),
-                Forms\Components\TextInput::make('foto')
+                    ->directory('pengurus')
+                    ->image()
+                    ->columnSpanFull(),
+                TextInput::make('nama')
+                    ->label('Nama Pengurus')
                     ->required()
-                    ->maxLength(128),
-                Forms\Components\DatePicker::make('tanggal_lahir')
+                    ->maxLength(128)
+                    ->columnSpanFull(),
+                DatePicker::make('tanggal_lahir')
+                    ->native(false)
                     ->required(),
-                Forms\Components\TextInput::make('no_hp')
+                TextInput::make('no_hp')
                     ->required()
                     ->maxLength(16),
-                Forms\Components\TextInput::make('jenis_kelamin')
-                    ->required(),
-                Forms\Components\Textarea::make('alamat')
+                Select::make('jenis_kelamin')
+                    ->required()
+                    ->options([
+                        'Laki-laki' => 'Laki-laki',
+                        'Perempuan' => 'Perempuan',
+                    ])
+                    ->columnSpanFull(),
+                Textarea::make('alamat')
                     ->required()
                     ->columnSpanFull(),
             ]);
