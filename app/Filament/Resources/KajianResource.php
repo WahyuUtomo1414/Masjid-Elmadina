@@ -2,16 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\KajianResource\Pages;
-use App\Filament\Resources\KajianResource\RelationManagers;
-use App\Models\Kajian;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Kajian;
+use App\Models\Ustadz;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\KajianResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\KajianResource\RelationManagers;
 
 class KajianResource extends Resource
 {
@@ -23,17 +28,24 @@ class KajianResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('ustadz_id')
+                Select::make('ustadz_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('judul_kajian')
+                    ->label('Ustadz')
+                    ->searchable()
+                    ->columnSpanFull()
+                    ->options(Ustadz::pluck('nama', 'id')),
+                Textarea::make('judul_kajian')
                     ->required()
+                    ->columnSpanFull()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('tanggal_kajian')
+                DatePicker::make('tanggal_kajian')
+                    ->native(false)
                     ->required(),
-                Forms\Components\DatePicker::make('jam_kajian')
+                TextInput::make('jam_kajian')
+                    ->label('Jam Kajian')
+                    ->type('time')
                     ->required(),
-                Forms\Components\Textarea::make('keterangan')
+                Textarea::make('keterangan')
                     ->required()
                     ->columnSpanFull(),
             ]);
