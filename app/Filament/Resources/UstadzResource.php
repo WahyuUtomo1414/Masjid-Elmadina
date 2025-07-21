@@ -24,7 +24,11 @@ class UstadzResource extends Resource
 {
     protected static ?string $model = Ustadz::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
+
+    protected static ?string $navigationLabel = 'Ustadz';
+
+    protected static ?string $label = 'Ustadz';
 
     public static function form(Form $form): Form
     {
