@@ -10,6 +10,7 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UstadzResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UstadzResource\RelationManagers;
+use Filament\Tables\Columns\ImageColumn;
 
 class UstadzResource extends Resource
 {
@@ -60,16 +62,16 @@ class UstadzResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama')
+                ImageColumn::make('foto'),
+                TextColumn::make('nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('foto')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('tanggal_lahir')
+                TextColumn::make('tanggal_lahir')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('no_hp')
+                TextColumn::make('no_hp')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('jenis_kelamin'),
+                TextColumn::make('jenis_kelamin'),
+                TextColumn::make('alamat'),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -87,7 +89,9 @@ class UstadzResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
