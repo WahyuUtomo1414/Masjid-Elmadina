@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->font('poppins')
+            ->brandName('Masjid El-Madina')
             ->colors([
                 'primary' => Color::Amber,
             ])
