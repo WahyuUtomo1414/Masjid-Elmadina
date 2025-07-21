@@ -62,7 +62,9 @@ class UstadzResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('foto'),
+                ImageColumn::make('foto')
+                    ->circular()
+                    ->size(80),
                 TextColumn::make('nama')
                     ->searchable(),
                 TextColumn::make('tanggal_lahir')
