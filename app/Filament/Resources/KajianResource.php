@@ -24,7 +24,11 @@ class KajianResource extends Resource
 {
     protected static ?string $model = Kajian::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
+
+    protected static ?string $navigationLabel = 'Kajian';
+
+    protected static ?string $label = 'Kajian';
 
     public static function form(Form $form): Form
     {
